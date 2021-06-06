@@ -22,7 +22,7 @@ class Suggestion:
         await ctx.send(hidden=True, content='Thank you for your suggestion!')
 
     @staticmethod
-    async def edit(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id:int, text):
+    async def edit(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id, text):
         try:
             msg:discord.Message = await channel.fetch_message(suggestion_id)
         except Exception:
@@ -40,7 +40,7 @@ class Suggestion:
         await ctx.send(hidden=True, content='Suggestion modified!')
 
     @staticmethod
-    async def approve(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id:int):
+    async def approve(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id):
         if ctx.author_id not in ADMINS:
             await ctx.send(hidden=True, content='Nope.')
             return False
@@ -59,7 +59,7 @@ class Suggestion:
         await ctx.send(hidden=True, content='Suggestion has been approved')
 
     @staticmethod
-    async def refuse(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id:int):
+    async def refuse(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id):
         if ctx.author_id not in ADMINS:
             await ctx.send(hidden=True, content='Nope.')
             return False
@@ -83,12 +83,13 @@ class Suggestion:
             return False
 
         messages = []
-        for msg in await channel.history():
+        history = await channel.history().flatten()
+        for msg in history:
             embed:discord.Embed = msg.embeds[0]
-            if int(embed.author) == user_id:
+            if int(embed.author.name) == int(user_id):
                 messages.append(msg)
 
-        channel.delete_messages(messages=messages)
+        await channel.delete_messages(messages=messages)
         await ctx.send(hidden=True, content='Suggestions removed')
     
     @staticmethod
@@ -98,8 +99,9 @@ class Suggestion:
             return False
 
         messages = []
-        for msg in await channel.history():
-            if msg.author_id == user_id:
+        history = await channel.history().flatten()
+        for msg in history:
+            if msg.author_id == int(user_id):
                 messages.append(msg)
 
         channel.delete_messages(messages=messages)

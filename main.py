@@ -55,7 +55,7 @@ async def _suggest(ctx: SlashContext, channel:discord.channel.TextChannel, text)
         )
     ]
 )
-async def _edit(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id:int, text):
+async def _edit(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id, text):
     await Suggestion.edit(ctx, channel, suggestion_id, text)
 
 @slash.slash(
@@ -76,7 +76,7 @@ async def _edit(ctx: SlashContext, channel:discord.channel.TextChannel, suggesti
         )
     ]
 )
-async def _approve(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id:int):
+async def _approve(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id):
     await Suggestion.approve(ctx, channel, suggestion_id)
 
 @slash.slash(
@@ -97,7 +97,7 @@ async def _approve(ctx: SlashContext, channel:discord.channel.TextChannel, sugge
         )
     ]
 )
-async def _refuse(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id:int):
+async def _refuse(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id):
     await Suggestion.refuse(ctx, channel, suggestion_id)
 
 @slash.slash(
@@ -118,7 +118,7 @@ async def _refuse(ctx: SlashContext, channel:discord.channel.TextChannel, sugges
         )
     ]
 )
-async def _purge_suggestions(ctx: SlashContext, channel:discord.channel.TextChannel, user_id:int):
+async def _purge_suggestions(ctx: SlashContext, channel:discord.channel.TextChannel, user_id):
     await Suggestion.purge_suggestions(ctx, channel, user_id)
 
 @slash.slash(
@@ -139,7 +139,7 @@ async def _purge_suggestions(ctx: SlashContext, channel:discord.channel.TextChan
         )
     ]
 )
-async def _purge_messages(ctx: SlashContext, channel:discord.channel.TextChannel, user_id:int):
+async def _purge_messages(ctx: SlashContext, channel:discord.channel.TextChannel, user_id):
     await Suggestion.purge_messages(ctx, channel, user_id)
 
 bot.run(DISCORD_BOT_TOKEN)
