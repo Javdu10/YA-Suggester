@@ -58,4 +58,25 @@ async def _suggest(ctx: SlashContext, channel:discord.channel.TextChannel, text)
 async def _edit(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id:int, text):
     await Suggestion.edit(ctx, channel, suggestion_id, text)
 
+@slash.slash(
+    name="approve",
+    description="approve a suggestion",
+    options=[
+        create_option(
+            name="channel",
+            description="In which channel is the suggestion",
+            option_type=7,
+            required=True
+        ),
+        create_option(
+            name="suggestion_id",
+            description="Message id of the suggestion",
+            option_type=3,
+            required=True
+        )
+    ]
+)
+async def _approve(ctx: SlashContext, channel:discord.channel.TextChannel, suggestion_id:int):
+    await Suggestion.approve(ctx, channel, suggestion_id)
+
 bot.run(DISCORD_BOT_TOKEN)
